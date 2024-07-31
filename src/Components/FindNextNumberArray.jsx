@@ -1,96 +1,121 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
-const FindNextNumberArray = () => {
+const FindNextNumber = () => {
+  const [inputValue, setInputValue] = useState('');
   const [arrayInput, setArrayInput] = useState('');
   const [target, setTarget] = useState('');
   const [nextNumber, setNextNumber] = useState(null);
-  const [isCircular, setIsCircular] = useState(false);
   const [error, setError] = useState('');
+  const [showTargetInput, setShowTargetInput] = useState(false);
 
-  // Function to find the next number in a non-circular array
-  const findNextNumber = (array, target) => {
+  // Function to find the next number in an array
+  const findNextNumberInArray = (array, target) => {
     const index = array.indexOf(target);
     if (index === -1) {
       return 'Number not found in the array';
     }
     if (index + 1 < array.length) {
-      return array[index + 1];
+      return `Next number is ${array[index + 1]}`;
     } else {
       return 'No next number found (target is the last element)';
     }
   };
 
-  // Function to find the next number in a circular array
-  const findNextNumberCircular = (array, target) => {
-    const index = array.indexOf(target);
-    if (index === -1) {
-      return 'Number not found in the array';
+  // Function to find the next number
+  const findNextNumber = (value) => {
+    const number = parseFloat(value);
+    if (isNaN(number)) {
+      return 'Input is not a valid number';
     }
-    // Calculate next index, wrapping around if needed
-    const nextIndex = (index + 1) % array.length;
-    return array[nextIndex];
+    return `Next number is ${number + 1}`;
   };
 
   const handleCalculate = () => {
     setError('');
-    const array = arrayInput.split(',').map(Number);
-    const targetNumber = Number(target);
+    if (arrayInput) {
+      const array = arrayInput.split(',').map(Number);
+      const targetNumber = Number(target);
 
-    if (isNaN(targetNumber)) {
-      setError('Target number must be a valid number.');
-      return;
+      if (isNaN(targetNumber)) {
+        setError('Target number must be a valid number.');
+        return;
+      }
+
+      if (array.some(isNaN)) {
+        setError('Array must contain valid numbers.');
+        return;
+      }
+
+      const result = findNextNumberInArray(array, targetNumber);
+      setNextNumber(result);
+    } else {
+      const result = findNextNumber(inputValue);
+      if (result.startsWith('Input is not a valid number')) {
+        setError(result);
+        setNextNumber(null);
+      } else {
+        setNextNumber(result);
+      }
     }
+  };
 
-    if (array.some(isNaN)) {
-      setError('Array must contain valid numbers.');
-      return;
-    }
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+    setShowTargetInput(value.includes(','));
+  };
 
-    const result = isCircular
-      ? findNextNumberCircular(array, targetNumber)
-      : findNextNumber(array, targetNumber);
-
-    setNextNumber(result);
+  const handleArrayInputChange = (e) => {
+    setArrayInput(e.target.value);
+    // Reset target input and results when array input changes
+    setTarget('');
+    setNextNumber(null);
   };
 
   return (
     <Container>
       <h2>Find Next Number</h2>
-      <InputGroup>
-        <label htmlFor="array">Array (comma-separated):</label>
-        <input
-          type="text"
-          id="array"
-          value={arrayInput}
-          onChange={(e) => setArrayInput(e.target.value)}
-          placeholder="e.g. 1,2,3,4,5"
-        />
-        <label htmlFor="target">Target Number:</label>
-        <input
-          type="number"
-          id="target"
-          value={target}
-          onChange={(e) => setTarget(e.target.value)}
-          placeholder="e.g. 3"
-        />
-        <label>
+      {!showTargetInput ? (
+        <InputGroup>
+          <label htmlFor="number">Enter a number or an array (comma-separated):</label>
           <input
-            type="checkbox"
-            checked={isCircular}
-            onChange={() => setIsCircular(!isCircular)}
+            type="text"
+            id="number"
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder="e.g. 5 or 1,2,3,4,5"
           />
-          Circular Array
-        </label>
-        <button onClick={handleCalculate}>Find Next Number</button>
-      </InputGroup>
+          <button onClick={handleCalculate}>Find Next Number</button>
+        </InputGroup>
+      ) : (
+        <InputGroup>
+          <label htmlFor="array">Array (comma-separated):</label>
+          <input
+            type="text"
+            id="array"
+            value={arrayInput}
+            onChange={handleArrayInputChange}
+            placeholder="e.g. 1,2,3,4,5"
+          />
+          <label htmlFor="target">Target Number:</label>
+          <input
+            type="number"
+            id="target"
+            value={target}
+            onChange={(e) => setTarget(e.target.value)}
+            placeholder="e.g. 3"
+          />
+          <button onClick={handleCalculate}>Find Next Number</button>
+        </InputGroup>
+      )}
       {error && <Error>{error}</Error>}
-      {nextNumber !== null && <Result>Your next number is: {nextNumber}</Result>}
+      {nextNumber !== null && <Result>{nextNumber}</Result>}
     </Container>
   );
 };
 
-export default FindNextNumberArray;
+export default FindNextNumber;
 
 const Container = styled.div`
   background: #f9f9f9;
@@ -117,10 +142,6 @@ const InputGroup = styled.div`
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1rem;
-  }
-
-  input[type='checkbox'] {
-    margin-right: 0.5rem;
   }
 
   button {

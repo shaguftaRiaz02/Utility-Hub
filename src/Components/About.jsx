@@ -11,7 +11,7 @@ const AboutSection = () => {
           <ImageContainer>
             <img
               className="d-block w-100"
-              src="../../public/images/change-948018_1280.jpg"
+              src="/images/change-948018_1280.jpg"
               alt="Tool 1"
             />
           </ImageContainer>
@@ -23,7 +23,7 @@ const AboutSection = () => {
           <ImageContainer>
             <img
               className="d-block w-100"
-              src="../../public/images/web-design-3411373_1280.jpg"
+              src="/images/web-design-3411373_1280.jpg"
               alt="Tool 2"
             />
           </ImageContainer>
@@ -35,7 +35,7 @@ const AboutSection = () => {
           <ImageContainer>
             <img
               className="d-block w-100"
-              src="../../public/images/quality-control-1257235_1280.jpg"
+              src="/images/quality-control-1257235_1280.jpg"
               alt="Tool 3"
             />
           </ImageContainer>

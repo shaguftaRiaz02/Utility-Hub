@@ -7,7 +7,7 @@ import Footer from './Components/Footer';
 import styled from 'styled-components';
 import BMICalculator from './Components/BMICalculator';
 import FindNextNumberArray from './Components/FindNextNumberArray';
-import FindNextNumberByInput from './Components/FindNextNumberByInput';
+// import FindNextNumberByInput from './Components/FindNextNumberByInput';
 import CaseConverter from './Components/CaseConverter';
 import RandomArrayPicker from './Components/RandomArrayPicker';
 import AboutSection from './Components/About';
@@ -25,8 +25,9 @@ const App = () => {
             <Route path="/age-to-days" element={<AgeToDaysConverter />} />
             <Route path="/hours-to-seconds" element={<HoursToSecondsConverter />} />
             <Route path="/BMICalculator" element={<BMICalculator/>} />
-            <Route path="/next-number-array" element={<FindNextNumberArray/>}/>
-            <Route path="/next-number-by-input" element={<FindNextNumberByInput/>}/>
+            <Route path="/number-tools" element={<FindNextNumberArray/>}/>
+            {/* <Route path="/next-number-array" element={<FindNextNumberArray/>}/> */}
+            {/* <Route path="/next-number-by-input" element={<FindNextNumberByInput/>}/> */}
             <Route path='/case-converter' element={<CaseConverter/>}/>
             <Route path='/array-picker' element={<RandomArrayPicker/>}/>
             <Route path='/about' element={<AboutSection/>}/>

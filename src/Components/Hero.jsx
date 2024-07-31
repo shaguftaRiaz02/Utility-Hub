@@ -23,7 +23,7 @@ export default Hero;
 
 const HomeContainer = styled.div`
 
-  background-image: url('../../public/images/bells-flower-658751_1280.jpg');
+  background-image: url('/images/bells-flower-658751_1280.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   opacity: 3;

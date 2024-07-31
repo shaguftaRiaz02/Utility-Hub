@@ -4,14 +4,23 @@ import styled from "styled-components";
 const AgeToDaysConverter = () => {
   const [age, setAge] = useState("");
   const [days, setDays] = useState(null);
+  const [error, setError] = useState(""); // New state for error message
 
   const handleChange = (e) => {
     setAge(e.target.value);
+    setError(""); // Clear error when user types
   };
 
   const handleConvert = () => {
-    const ageInDays = age * 365; // Basic calculation, not accounting for leap years
-    setDays(ageInDays);
+    const ageInYears = Number(age); // Convert age to a number
+    if (ageInYears < 0) {
+      setError("Age can't be negative.");
+      setDays(null); // Clear days if there's an error
+    } else {
+      const ageInDays = ageInYears * 365; // Basic calculation, not accounting for leap years
+      setDays(ageInDays);
+      setError(""); // Clear error if conversion is successful
+    }
   };
 
   return (
@@ -30,7 +39,8 @@ const AgeToDaysConverter = () => {
             />
             <button onClick={handleConvert}>Convert</button>
           </InputContainer>
-          {days !== null && (
+          {error && <Error>{error}</Error>} {/* Display error message */}
+          {days !== null && !error && (
             <Result>
               <p>Your age in days is approximately:</p>
               <h3>{days} days</h3>
@@ -111,4 +121,11 @@ const Result = styled.div`
     font-size: 1.5rem;
     color: #25afaf;
   }
+`;
+
+const Error = styled.div`
+  color: red;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 1rem;
 `;

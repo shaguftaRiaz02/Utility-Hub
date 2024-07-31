@@ -38,7 +38,7 @@ const Navbar = () => {
           <li className="nav-item">
             <Link className="nav-link" to="/BMICalculator"> <IoIosCalculator/> BMI Calculator</Link>
           </li>
-          <li className="nav-item dropdown">
+          {/* <li className="nav-item dropdown">
             <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
              <ImListNumbered/> Number Tools
             </a>
@@ -46,6 +46,9 @@ const Navbar = () => {
               <Link className="dropdown-item" to="/next-number-array">Find Next Number <small>In Array</small></Link>
               <Link className="dropdown-item" to="/next-number-by-input">Find Next Number <small>By Input</small></Link>
             </div>
+          </li> */}
+          <li className="nav-item">
+            <Link className="nav-link" to="/number-tools"><ImListNumbered/> Number Tools</Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/array-picker"><MdDataArray/> Array Tools</Link>

@@ -1,17 +1,26 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const HoursToSecondsConverter = () => {
   const [hours, setHours] = useState('');
   const [seconds, setSeconds] = useState(null);
+  const [error, setError] = useState(''); // New state for error message
 
   const handleChange = (e) => {
     setHours(e.target.value);
+    setError(''); // Clear error when user types
   };
 
   const handleConvert = () => {
-    const hoursInSeconds = hours * 3600; // 1 hour = 3600 seconds
-    setSeconds(hoursInSeconds);
+    const hoursInNumber = Number(hours); // Convert hours to a number
+    if (hoursInNumber < 0) {
+      setError("Time can't be negative.");
+      setSeconds(null); // Clear seconds if there's an error
+    } else {
+      const hoursInSeconds = hoursInNumber * 3600; // 1 hour = 3600 seconds
+      setSeconds(hoursInSeconds);
+      setError(''); // Clear error if conversion is successful
+    }
   };
 
   return (
@@ -29,7 +38,8 @@ const HoursToSecondsConverter = () => {
           />
           <button onClick={handleConvert}>Convert</button>
         </InputContainer>
-        {seconds !== null && (
+        {error && <Error>{error}</Error>} {/* Display error message */}
+        {seconds !== null && !error && (
           <Result>
             <p>Your time in seconds is:</p>
             <h3>{seconds} seconds</h3>
@@ -109,4 +119,11 @@ const Result = styled.div`
     font-size: 1.5rem;
     color: #25afaf;
   }
+`;
+
+const Error = styled.div`
+  color: red;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 1rem;
 `;
